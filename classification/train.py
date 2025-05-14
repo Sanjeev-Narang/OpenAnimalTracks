@@ -53,7 +53,6 @@ def compress_image(img, quality_lower=80, quality_upper=100):
     return img
 
 
-
 def crop_resize(img, size):
     w, h = img.size
     r = min(w, h)
@@ -87,8 +86,6 @@ def training_step(model, criterion, optimizer, input, target,writer,global_step,
     # move the input and target data to the GPU
     input = input.cuda()
     target = target.cuda()
-
-   
 
     # forward pass
     output = model(input)
@@ -159,12 +156,11 @@ def evaluate(model, criterion, val_loader, writer, epoch, class_names):
 
 def main(args):
     # Please set the basedir 
-	basedir=None
-	assert basedir is not None, 'Please set the basedir'
-	train_dir = os.path.join(basedir,"OpenAnimalTracks/classification/train")
-	val_dir = os.path.join(basedir,"OpenAnimalTracks/classification/val")
-	test_dir = os.path.join(basedir,"OpenAnimalTracks/classification/test")
-
+    basedir=None
+    assert basedir is not None, 'Please set the basedir'
+    train_dir = os.path.join(basedir,"OpenAnimalTracks/classification/train")
+    val_dir = os.path.join(basedir,"OpenAnimalTracks/classification/val")
+    test_dir = os.path.join(basedir,"OpenAnimalTracks/classification/test")
 
     with open(args.config) as f:
         config = OmegaConf.load(f)
@@ -177,7 +173,6 @@ def main(args):
     log_dir = os.path.join('log', f'{config.model.name}{["","_linprob"][args.linprob]}/{formatted_date}')
     os.makedirs(log_dir, exist_ok=True)
     writer = SummaryWriter(log_dir)
-
 
     batch_size = config.train.batch_size
     size = config.train.img_size
@@ -201,7 +196,6 @@ def main(args):
     train_dataset = datasets.ImageFolder(train_dir, transform=train_transform)
     val_dataset = datasets.ImageFolder(val_dir, transform=val_transform)
     test_dataset = datasets.ImageFolder(test_dir, transform=val_transform)
-
 
     adjustment = compute_adjustment(train_dataset.targets)
     if not args.use_adj:
@@ -249,7 +243,6 @@ def main(args):
             global_step+=1
         model.eval()
         accuracy = evaluate(model, criterion, val_loader, writer, epoch, class_names)
-
 
     weight_save_dir=f'checkpoints/{config.model.name}{["","_linprob"][args.linprob]}/{formatted_date}'
     os.makedirs(weight_save_dir, exist_ok=True)

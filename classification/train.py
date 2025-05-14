@@ -156,7 +156,7 @@ def evaluate(model, criterion, val_loader, writer, epoch, class_names):
 
 def main(args):
     # Please set the basedir 
-    basedir=None
+    basedir='/content/animal_tracks_dataset'
     assert basedir is not None, 'Please set the basedir'
     train_dir = os.path.join(basedir,"OpenAnimalTracks/classification/train")
     val_dir = os.path.join(basedir,"OpenAnimalTracks/classification/val")
